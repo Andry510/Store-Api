@@ -21,14 +21,14 @@ namespace store.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
+                    name = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    lastName = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
+                    lastName = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    profilePicture = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValue: "none")
+                    profilePicture = table.Column<string>(type: "varchar(255)", nullable: false, defaultValue: "none")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     rol = table.Column<string>(type: "nvarchar(255)", nullable: false, defaultValue: Role.Employee),
-                    Status = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: true),
+                    status = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
@@ -70,7 +70,8 @@ namespace store.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_authentications_profileId",
                 table: "authentications",
-                column: "profileId");
+                column: "profileId",
+                unique: true);
         }
 
         /// <inheritdoc />

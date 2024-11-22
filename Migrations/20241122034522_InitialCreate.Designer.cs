@@ -13,7 +13,7 @@ using store.Enum;
 namespace store.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20241121050002_InitialCreate")]
+    [Migration("20241122034522_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -65,7 +65,8 @@ namespace store.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProfileId");
+                    b.HasIndex("ProfileId")
+                        .IsUnique();
 
                     b.ToTable("authentications");
                 });
@@ -85,31 +86,28 @@ namespace store.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(255)
                         .HasColumnType("varchar(255)")
                         .HasColumnName("lastName");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255)
                         .HasColumnType("varchar(255)")
                         .HasColumnName("name");
 
                     b.Property<string>("ProfilePicture")
-                        .HasMaxLength(255)
                         .HasDefaultValue("none")
                         .HasColumnType("varchar(255)")
                         .HasColumnName("profilePicture");
 
                     b.Property<string>("Rol")
-                        .IsRequired()
                         .HasDefaultValue(Role.Employee)
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("rol");
 
                     b.Property<bool>("Status")
                         .HasDefaultValue(true)
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("status");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
@@ -125,8 +123,8 @@ namespace store.Migrations
             modelBuilder.Entity("store.Models.Authentication", b =>
                 {
                     b.HasOne("store.Models.Profile", "Profile")
-                        .WithMany()
-                        .HasForeignKey("ProfileId")
+                        .WithOne()
+                        .HasForeignKey("store.Models.Authentication", "ProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
