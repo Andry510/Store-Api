@@ -13,18 +13,13 @@ public class Profile
     public Guid Id { get; set; } = Guid.NewGuid();
 
     [Required]
-    [StringLength(255)]
     [Column("name", TypeName = "varchar(255)")]
     public string Name { get; set; } = string.Empty;
 
     [Required]
-    [StringLength(255)]
     [Column("lastName", TypeName = "varchar(255)")]
     public string LastName { get; set; } = string.Empty;
 
-
-    [StringLength(255)]
-    [DefaultValue("none")]
     [Column("profilePicture", TypeName = "varchar(255)")]
     public string ProfilePicture { get; set; } = "none";
 
@@ -32,7 +27,7 @@ public class Profile
     [Column("rol", TypeName = "nvarchar(255)")]
     public Role Rol { get; set; } = Role.Employee;
 
-    [DefaultValue(true)]
+    [Column("status", TypeName = "tinyint(1)")]
     public bool Status { get; set; } = true;
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
