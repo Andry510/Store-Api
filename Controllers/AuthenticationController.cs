@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using store.Dtos.Authentication;
 using store.Interfaces;
+using store.Messages;
 using store.Models;
 
 namespace store.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("[controller]")]
 public class AuthenticationController : ControllerBase, IAuthenticationController
 {
     private readonly IAuthenticationService authenticationService;
@@ -16,9 +17,21 @@ public class AuthenticationController : ControllerBase, IAuthenticationControlle
         authenticationService = service;
     }
 
-    [HttpPost]
+    [HttpPost("sign-in")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<BaseResponse<Authentication>> Create([FromBody] CreateProfileDto body)
     {
-        throw new NotImplementedException();
+        if (!ModelState.IsValid)
+            return BadRequest(MessagesClass.ErrorCreate());
+        try
+        {            
+              return Ok();
+        }
+        catch (System.Exception)
+        {
+
+            throw;
+        }
     }
 }
