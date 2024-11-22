@@ -1,25 +1,26 @@
-﻿using store.Interfaces;
-using store.Contexts;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using store.Interfaces;
+using store.Messages;
 using store.Models;
 
 namespace store.Services;
 
-public class AuthenticationService: IAuthenticationService
+public class AuthenticationService : IAuthenticationService
 {
-    private readonly DataBaseContext repository;
+    private readonly IAuthenticationRepository authenticationRepository;
 
-    public AuthenticationService(DataBaseContext _repository)
+    public AuthenticationService(IAuthenticationRepository repository)
     {
-        repository = _repository;
-    }
-    
-    public Task<Authentication> Save()
-    {
-        throw new NotImplementedException();
+        authenticationRepository = repository;
     }
 
-    public Task<Authentication> FindOneById()
+    public async Task<Authentication?> Create(Authentication authentication)
     {
+        var isEmailExist = await authenticationRepository.FindOneByEmail(authentication.Email);
+
+        if (isEmailExist != null)
+            return null;
+
         throw new NotImplementedException();
     }
 }
