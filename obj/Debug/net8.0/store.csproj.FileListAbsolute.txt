@@ -104,3 +104,4 @@ C:\Users\100070971\OneDrive\Escritorio\Proyectos\net\store\obj\Debug\net8.0\ref\
 C:\Users\100070971\OneDrive\Escritorio\Proyectos\net\store\bin\Debug\net8.0\MySqlConnector.dll
 C:\Users\100070971\OneDrive\Escritorio\Proyectos\net\store\bin\Debug\net8.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Users\100070971\OneDrive\Escritorio\Proyectos\net\store\obj\Debug\net8.0\store.sourcelink.json
+C:\Users\100070971\OneDrive\Escritorio\Proyectos\net\store\bin\Debug\net8.0\System.Security.Permissions.dll
