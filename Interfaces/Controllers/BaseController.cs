@@ -5,5 +5,5 @@ namespace store.Interfaces;
 
 public interface IBaseController<T, TCreateDto>
 {
-    ActionResult<BaseResponse<T>> Create([FromBody] TCreateDto body);
+    Task<ActionResult<BaseResponse<T>>> Register([FromBody] TCreateDto body);
 }

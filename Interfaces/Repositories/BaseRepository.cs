@@ -2,6 +2,6 @@
 
 public interface IBaseRepository<T>
 {
-    Task<T> Save();
-    Task<T> FindOneById();
+    Task Save(T data);
+    Task<T?> FindOneById(Guid id);
 }

@@ -1,6 +1,8 @@
-﻿namespace store.Interfaces;
+﻿using store.Models;
 
-public interface ProfileRepository
+namespace store.Interfaces;
+
+public interface IProfileRepository: IBaseRepository<Profile>
 {
 
 }
