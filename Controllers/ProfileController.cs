@@ -5,12 +5,6 @@ namespace store.Controllers;
 
 [ApiController]
 [Route("api[controller]")]
-public class ProfileController : ControllerBase, IProfileController
+public class ProfileController(IProfileService service) : ControllerBase, IProfileController
 {
-    private readonly IProfileService profileService;
-
-    public ProfileController(IProfileService service)
-    {
-        profileService = service;
-    }
 }
