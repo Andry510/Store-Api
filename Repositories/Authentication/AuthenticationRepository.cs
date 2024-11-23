@@ -1,31 +1,27 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using store.Contexts;
 using store.Interfaces;
+using store.Contexts;
 using store.Models;
 
 namespace store.Repositories;
 
-public class AuthenticationRepository : IAuthenticationRepository
+public class AuthenticationRepository(DataBaseContext DbContext) : IAuthenticationRepository
 {
-    private readonly DataBaseContext db;
-
-    public AuthenticationRepository(DataBaseContext DBContext)
+    public async Task Save(Authentication data)
     {
-        db = DBContext;
-    }
-    public Task<Authentication> Save()
-    {
-        throw new NotImplementedException();
+        DbContext.Authentications.Add(data);
+        await DbContext.SaveChangesAsync();
     }
 
-    public Task<Authentication> FindOneById()
+    public async Task<Authentication?> FindOneById(Guid id)
     {
-        throw new NotImplementedException();
+        var data = await DbContext.Authentications.FirstOrDefaultAsync<Authentication>(a => a.Id == id);
+        return data;
     }
 
     public async Task<Authentication?> FindOneByEmail(string email)
     {
-       var data = await db.Authentications.FirstOrDefaultAsync(a => a.Email == email);
-       return data;
+        var data = await DbContext.Authentications.FirstOrDefaultAsync<Authentication>(a => a.Email == email);
+        return data;
     }
 }
