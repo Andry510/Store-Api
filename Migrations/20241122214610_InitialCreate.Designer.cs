@@ -6,14 +6,14 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using store.Contexts;
-using store.Enum;
+using store.Enums;
 
 #nullable disable
 
 namespace store.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20241122034522_InitialCreate")]
+    [Migration("20241122214610_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -80,7 +80,8 @@ namespace store.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("createdAt");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTime>("CreatedAt"));
 
@@ -99,8 +100,8 @@ namespace store.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("profilePicture");
 
-                    b.Property<string>("Rol")
-                        .HasDefaultValue(Role.Employee)
+                    b.Property<string>("Rol")                        
+                        .HasDefaultValue(Role.Customer.ToString())
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("rol");
 
@@ -111,7 +112,8 @@ namespace store.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updatedAt");
 
                     MySqlPropertyBuilderExtensions.UseMySqlComputedColumn(b.Property<DateTime>("UpdatedAt"));
 

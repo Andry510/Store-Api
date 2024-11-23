@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using store.Enum;
+using store.Enums;
 
 #nullable disable
 
@@ -27,11 +27,11 @@ namespace store.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     profilePicture = table.Column<string>(type: "varchar(255)", nullable: false, defaultValue: "none")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    rol = table.Column<string>(type: "nvarchar(255)", nullable: false, defaultValue: Role.Employee),
-                    status = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    rol = table.Column<string>(type: "nvarchar(255)", nullable: false, defaultValue: Role.Customer.ToString()),
+                    status = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    createdAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    updatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.ComputedColumn)
                 },
                 constraints: table =>
