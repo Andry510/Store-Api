@@ -18,7 +18,7 @@ public class AuthenticationMapper
             {
                 Name = dto.Name,
                 LastName = dto.LastName,
-                Rol = dto.Rol ?? Enum.Role.Employee,
+                Rol = dto.Rol ?? Enums.Role.Customer
             }
         };
     }
