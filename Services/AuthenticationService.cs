@@ -1,26 +1,31 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using store.Enums;
 using store.Interfaces;
-using store.Messages;
 using store.Models;
 
 namespace store.Services;
 
-public class AuthenticationService : IAuthenticationService
+public class AuthenticationService(
+    IAuthenticationRepository authenticationRepository,
+    IProfileRepository profileRepository,
+    IHashingService hashing
+) : IAuthenticationService
 {
-    private readonly IAuthenticationRepository authenticationRepository;
-
-    public AuthenticationService(IAuthenticationRepository repository)
+    private async Task<bool> IsEmailExist(string email)
     {
-        authenticationRepository = repository;
+        var response = await authenticationRepository.FindOneByEmail(email);
+        return response == null;
     }
 
     public async Task<Authentication?> Create(Authentication authentication)
     {
-        var isEmailExist = await authenticationRepository.FindOneByEmail(authentication.Email);
-
-        if (isEmailExist != null)
+        if (!await IsEmailExist(authentication.Email))
             return null;
 
-        throw new NotImplementedException();
+        authentication.Password = hashing.HashPassword(authentication.Password);
+
+        await profileRepository.Save(authentication.Profile);
+        await authenticationRepository.Save(authentication);
+
+        return authentication;
     }
 }
