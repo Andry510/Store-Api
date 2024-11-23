@@ -2,7 +2,7 @@
 {
     public static class MessagesClass
     {
-         // Mensajes de éxito
+        // Mensajes de éxito
         public static string SuccessCreate() =>
            "El registro ha sido creado exitosamente.";
 
@@ -40,5 +40,31 @@
 
         public static string AlreadyExists() =>
             "El elemento ya existe.";
+
+        // Mensajes de validación
+        public static string RequiredField(string fieldName) =>
+           $"El campo '{fieldName}' es obligatorio.";
+
+        public static string InvalidStringField(string fieldName) =>
+            $"El campo '{fieldName}' debe ser una cadena de texto válida.";
+
+        public static string InvalidNumberField(string fieldName) =>
+            $"El campo '{fieldName}' debe ser un número válido.";
+
+        public static string InvalidEmailField(string fieldName) =>
+            $"El campo '{fieldName}' debe contener una dirección de correo electrónico válida.";
+
+        public static string MinLengthExceeded(string fieldName, int minLength) =>
+            $"El campo '{fieldName}' debe tener al menos {minLength} caracteres.";
+
+        public static string MaxLengthExceeded(string fieldName, int maxLength) =>
+            $"El campo '{fieldName}' no debe superar los {maxLength} caracteres.";
+
+        public static string ValueOutOfRange(string fieldName, int min, int max) =>
+            $"El valor del campo '{fieldName}' debe estar entre {min} y {max}.";
+
+        public static string InvalidFormat(string fieldName) =>
+            $"El formato del campo '{fieldName}' no es válido.";
+
     }
 }
