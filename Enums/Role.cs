@@ -1,12 +1,15 @@
 ﻿using System.Runtime.Serialization;
 
-namespace store.Enum;
+namespace store.Enums;
 
 public enum Role
 {
+    [EnumMember(Value = "admin")]
     Admin,
 
-    Manager,
+    [EnumMember(Value = "supplier")]
+    Supplier,
 
-    Employee,
+    [EnumMember(Value = "supplier")]
+    Customer,
 }

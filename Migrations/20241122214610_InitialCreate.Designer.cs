@@ -6,14 +6,14 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using store.Contexts;
-using store.Enum;
+using store.Enums;
 
 #nullable disable
 
 namespace store.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20241121050002_InitialCreate")]
+    [Migration("20241122214610_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -65,7 +65,8 @@ namespace store.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProfileId");
+                    b.HasIndex("ProfileId")
+                        .IsUnique();
 
                     b.ToTable("authentications");
                 });
@@ -79,41 +80,40 @@ namespace store.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("createdAt");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTime>("CreatedAt"));
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(255)
                         .HasColumnType("varchar(255)")
                         .HasColumnName("lastName");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255)
                         .HasColumnType("varchar(255)")
                         .HasColumnName("name");
 
                     b.Property<string>("ProfilePicture")
-                        .HasMaxLength(255)
                         .HasDefaultValue("none")
                         .HasColumnType("varchar(255)")
                         .HasColumnName("profilePicture");
 
-                    b.Property<string>("Rol")
-                        .IsRequired()
-                        .HasDefaultValue(Role.Employee)
+                    b.Property<string>("Rol")                        
+                        .HasDefaultValue(Role.Customer.ToString())
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("rol");
 
                     b.Property<bool>("Status")
                         .HasDefaultValue(true)
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("status");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updatedAt");
 
                     MySqlPropertyBuilderExtensions.UseMySqlComputedColumn(b.Property<DateTime>("UpdatedAt"));
 
@@ -125,8 +125,8 @@ namespace store.Migrations
             modelBuilder.Entity("store.Models.Authentication", b =>
                 {
                     b.HasOne("store.Models.Profile", "Profile")
-                        .WithMany()
-                        .HasForeignKey("ProfileId")
+                        .WithOne()
+                        .HasForeignKey("store.Models.Authentication", "ProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
