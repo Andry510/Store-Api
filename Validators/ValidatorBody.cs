@@ -2,10 +2,17 @@
 using store.Enums;
 using store.Messages;
 
-namespace store;
+namespace store.Validators;
 
-public class ValidatorBody(BodyOptions[] rules) : ValidationAttribute
+public class ValidatorBody : ValidationAttribute
 {
+    private readonly BodyOptions[] rules;
+    
+    public ValidatorBody(BodyOptions[] rules)
+    {
+        this.rules = rules;
+    }
+    
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
         foreach (var rule in rules)
@@ -30,7 +37,7 @@ public class ValidatorBody(BodyOptions[] rules) : ValidationAttribute
                         var emailIsValidate = new EmailAddressAttribute();
 
                         if (value is not string email || string.IsNullOrWhiteSpace(email) || !emailIsValidate.IsValid(value))
-                            return new ValidationResult(MessagesClass.InvalidFormat(validationContext.DisplayName));
+                            return new ValidationResult(MessagesClass.InvalidEmailField(validationContext.DisplayName));
 
                     }
                     break;
@@ -43,7 +50,7 @@ public class ValidatorBody(BodyOptions[] rules) : ValidationAttribute
                     break;
                 case BodyOptions.IsRole:
                     if (value != null)
-                        if (value is not Role role || role == Role.Admin)
+                        if (value is not Role role)
                             return new ValidationResult(MessagesClass.InvalidFormat(validationContext.DisplayName));
                     break;
                 default:
