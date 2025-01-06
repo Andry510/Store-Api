@@ -2,7 +2,7 @@
 
 namespace store.Interfaces;
 
-public interface IProfileService: IBaseService<Profile>
+public interface IProfileService
 {
 
 }
