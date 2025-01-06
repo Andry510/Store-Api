@@ -5,18 +5,22 @@ using store.Models;
 
 namespace store.Repositories;
 
-public class ProfileRepository(DataBaseContext DbContext) : IProfileRepository
+public class ProfileRepository : IProfileRepository
 {
+    
+    private readonly DataBaseContext _db;
+
+    public ProfileRepository(DataBaseContext db) => _db = db;
     
     public async Task Save(Profile data)
     {
-        DbContext.Profiles.Add(data); 
-        await DbContext.SaveChangesAsync();       
+        _db.Profiles.Add(data);
+        await _db.SaveChangesAsync();
     }
-    
+
     public async Task<Profile?> FindOneById(Guid id)
     {
-        var data = await DbContext.Profiles.FirstOrDefaultAsync<Profile>(p => p.Id == id);
+        var data = await _db.Profiles.FirstOrDefaultAsync<Profile>(p => p.Id == id);
         return data;
-    }    
+    }
 }
