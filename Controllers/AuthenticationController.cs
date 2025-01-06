@@ -5,33 +5,60 @@ using store.Messages;
 using store.Mappers;
 using store.Models;
 
+
 namespace store.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class AuthenticationController(IAuthenticationService service) : ControllerBase, IAuthenticationController
+
+public class AuthenticationController(
+    IAuthenticationService authenticationService
+) : ControllerBase, IAuthenticationController
 {
-    [HttpPost("sign-in")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<BaseResponse<Authentication>>> Register([FromBody] CreateProfileDto body)
+    [HttpPost("sign-up")]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(BaseResponseMessage))]
+    [ProducesResponseType(StatusCodes.Status409Conflict, Type = typeof(BaseResponseMessage))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponseMessage))]
+    public async Task<ActionResult<BaseResponseMessage>> Register([FromBody] RegisterProfileDto body)
     {
         if (!ModelState.IsValid)
-            return BadRequest(MessagesClass.ErrorCreate());
+            throw new BadHttpRequestException("Error");
 
-        // var transformBody = AuthenticationMapper.ToAuthentication(body);
-        // var data = await service.Create(transformBody);
+        var transformBody = AuthenticationMapper.FromRegisterDtoToAuthentication(body);
+        
+        var response = await authenticationService.Create(transformBody);
 
-        // if (data == null)
-        //     return Conflict(new { Message = MessagesClass.AlreadyExists() });
+        if (!response)
+            throw new InvalidOperationException();
 
-        return CreatedAtAction(
-            nameof(Register),
-            new BaseResponse<Authentication>
-            {
-                Message = MessagesClass.SuccessCreate(),
-                // Data = data,
-            }
-        );
+        var result = new BaseResponseMessage
+        {
+            Message = MessagesClass.SuccessCreate()
+        };
+
+        return StatusCode(StatusCodes.Status201Created, result);
     }
+
+    [HttpPost("sign-in")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaseResponseMessage))]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(BaseResponseMessage))]
+    public async Task<ActionResult<BaseResponseLogin>> Login([FromBody] LoginDto body)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        var token = await authenticationService.Login(body);
+
+        if (token == null)
+            throw new UnauthorizedAccessException();
+
+        var result = new BaseResponseLogin
+        {
+            Message = MessagesClass.SuccessLogin(),
+            Token = token,
+        };
+
+        return StatusCode(StatusCodes.Status200OK, result);
+    }
+
 }
