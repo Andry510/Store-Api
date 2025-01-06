@@ -5,7 +5,7 @@ namespace store.Mappers;
 
 public class AuthenticationMapper
 {
-    public static Authentication ToAuthentication(CreateProfileDto dto)
+    public static Authentication FromRegisterDtoToAuthentication(RegisterProfileDto dto)
     {
         if (dto == null)
             throw new BadHttpRequestException(nameof(dto));
@@ -18,7 +18,7 @@ public class AuthenticationMapper
             {
                 Name = dto.Name,
                 LastName = dto.LastName,
-                Rol = dto.Rol ?? Enums.Role.Customer
+                Rol = dto.Rol,
             }
         };
     }
