@@ -8,14 +8,14 @@ public class HashingService: IHashingService
 {    
     private readonly PasswordHasher<Authentication> passwordHasher = new();
 
-    public string HashPassword(string password)
+    public string GenerateHash(string password)
     {
         return passwordHasher.HashPassword(null!, password);
     }
 
-    public bool VerifyPassword(string password, string hashedPassword)
+    public bool VerifyHash(string plainText, string hashedText)
     {
-        var result = passwordHasher.VerifyHashedPassword(null!, hashedPassword, password);
+        var result = passwordHasher.VerifyHashedPassword(null!, hashedText, plainText);
         return result == PasswordVerificationResult.Success;
     }
 }
