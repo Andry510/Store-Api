@@ -1,9 +1,10 @@
 ﻿using System.Text.Json.Serialization;
+using store.Validators;
 using store.Enums;
 
 namespace store.Dtos.Authentication;
 
-public class CreateProfileDto
+public class RegisterProfileDto
 {
     [ValidatorBody([BodyOptions.Required, BodyOptions.IsString])]
     public string Name { get; set; } = null!;
@@ -16,9 +17,9 @@ public class CreateProfileDto
 
     [ValidatorBody([BodyOptions.Required, BodyOptions.IsPassword])]
     public string Password { get; set; } = null!;
-
-    [ValidatorBody([BodyOptions.IsRole])]
+    
+    [ValidatorBody([BodyOptions.Required, BodyOptions.IsRole])]
     [JsonConverter(typeof(JsonStringEnumConverter<Role>))]
-    public Role? Rol { get; set; } = Role.Customer;
+    public Role Rol { get; set; } = Role.Customer;
 }
 
