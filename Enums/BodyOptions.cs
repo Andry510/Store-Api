@@ -1,4 +1,4 @@
-﻿namespace store;
+﻿namespace store.Enums;
 
 public enum BodyOptions
 {
