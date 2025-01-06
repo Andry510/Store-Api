@@ -15,13 +15,13 @@ public class Authentication
     [EmailAddress]
     [Unicode(true)]
     [Column("email", TypeName = "varchar(255)")]
-    public string Email { get; set; } = string.Empty;
+    public required string Email { get; set; }
 
     [Required]
     [MinLength(6)]
     [StringLength(255)]
     [Column("password", TypeName = "varchar(255)")]
-    public string Password { get; set; } = string.Empty;
+    public required string Password { get; set; }
 
     [Column("profileId")]
     [ForeignKey("profiles")]
